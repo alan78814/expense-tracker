@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row d-flex flex-column align-items-center">
+
+        <div class="dropdown-box">
+            <form action="" method="post">
+                <label for="category">類別</label>
+                <select name="category" id="category" class="ml-3">
+                    <option value="0">家居物業</option>
+                    <option value="1">交通出行</option>
+                    <option value="2">休閒娛樂</option>
+                    <option value="3">餐飲食品</option>
+                    <option value="4">其他</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="total-money mt-3">
+            <h3>總金額</h3>
+        </div>
+
+        <div class="expense mt-2 mb-3">
+            <ul class="list-group">
+        
+                <div class="list d-flex flex-row align-items-center mb-2">
+                    <div class="list-text mr-3">
+                        <li class="list-group-item">test2</li>
+                    </div>
+                    <div class="list-button">
+                        <form action="/" method="GET" style="display: inline">
+                            <button type="submit" class="btn btn-outline-primary" >修改</button>
+                        </form>
+                        <form action="/" method="GET" style="display: inline">
+                            <button type="submit" class="btn btn-outline-danger ml-2">刪除</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="list d-flex flex-row align-items-center mb-2">
+                    <div class="list-text mr-3">
+                        <li class="list-group-item">test3</li>
+                    </div>
+                    <div class="list-button">
+                        <form action="/" method="GET" style="display: inline">
+                            <button type="submit" class="btn btn-outline-primary" >修改</button>
+                        </form>
+                        <form action="/" method="GET" style="display: inline">
+                            <button type="submit" class="btn btn-outline-danger ml-2">刪除</button>
+                        </form>
+                    </div>
+                </div>
+
+            </ul>
+        </div>
+
+        <div class="add-expense">
+            <form action="/test" method="GET">
+                <button type="submit" class="btn btn-info">新增支出</button>        
+            </form>
+        </div>
+
+    </div>
+</div>
