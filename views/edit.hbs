@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            {{!-- 之後POST改PUT --}}
+            <form action="/test" method="POST">
+                <div class="title d-flex mb-4">
+                    <h5 class="mr-5">*必填欄位</h5>
+                    <h2 class="ml-4">請修改你的支出</h2>
+                </div>
+
+                <div class="input-group mb-4 name">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">名稱*</span>
+                    </div>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="input-group mb-4 date">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">日期*</span>
+                    </div>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="input-group mb-4 category">
+                    <div class="input-group-prepend">
+                        <label for="category" class="input-group-text">類別*</label>
+                    </div>
+                    <select name="category" id="category" class="form-control">
+                        <option value="1">家居物業</option>
+                        <option value="2">交通出行</option>
+                        <option value="3">休閒娛樂</option>
+                        <option value="4">餐飲食品</option>
+                        <option value="5">其他</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">金額*</span>
+                    </div>
+                    <input type="number" class="form-control" min="0">
+                </div>
+
+                <div class="button ">
+                    <button type="submit" class="btn btn-success">送出</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
