@@ -20,7 +20,7 @@ const seedRecord = [
         amount: 120
     },
     {
-        name: '電影：驚奇隊長',
+        name: '電影-驚奇隊長',
         category: '休閒娛樂',
         date: '2019/04/23',
         amount: 120
