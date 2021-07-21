@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row d-flex flex-column align-items-center">
         <div class="dropdown-box">
-            <form action="/filter" method="GET">
+            <form action="/categories/filter" method="GET">
                 <label for="category">請選擇類別</label>
                 <select name="category" id="category" class="ml-3" onchange="submit()">
                     <option value="" selected>所有分類</option>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="button-group">
-                        <form action="/" method="GET" style="display: inline">
+                        <form action="/records/edit" method="GET" style="display: inline">
                             <button type="submit" class="btn btn-outline-primary">修改</button>
                         </form>
                         <form action="/" method="GET" style="display: inline">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="add-expense">
-            <form action="/test" method="GET">
+            <form action="/records/new" method="GET">
                 <button type="submit" class="btn btn-info">新增支出</button>
             </form>
         </div>
