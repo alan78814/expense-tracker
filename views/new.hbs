@@ -26,11 +26,9 @@
                         <label for="category" class="input-group-text">類別*</label>
                     </div>
                     <select name="category" id="category" class="form-control">
-                        <option value="家居物業">家居物業</option>
-                        <option value="交通出行">交通出行</option>
-                        <option value="休閒娛樂">休閒娛樂</option>
-                        <option value="餐飲食品">餐飲食品</option>
-                        <option value="其他">其他</option>
+                        {{#each categories}}
+                        <option value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
                     </select>
                 </div>
 

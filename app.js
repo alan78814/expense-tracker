@@ -41,25 +41,23 @@ app.get('/categories/filter', async (req, res) => {
     Record.find({ category })
         .lean()
         .then(records => {
-            console.log(records)
-            let chosenRecord
             let totalAmount = 0
             for (let n = 0; n < records.length; n++) {
                 for (let i = 0; i < categories.length; i++) {
                     if (records[n].category === categories[i].name) {
-                        chosenRecord = records[n].category
                         records[n].category = categories[i].icon
                         totalAmount = totalAmount + records[n].amount
                     }
                 }
             }
-            res.render('index', { records, categories, chosenRecord, totalAmount })
+            res.render('index', { records, categories, category, totalAmount })
         })
         .catch(error => console.error(error))
 })
 // 首頁新增支出進入new.hbs
-app.get('/records/new', (req, res) => {
-    res.render('new')
+app.get('/records/new', async (req, res) => {
+    const categories = await Category.find().lean()
+    res.render('new', { categories })
 })
 // 新增支出頁送出
 app.post('/records', (req, res) => {
@@ -69,13 +67,16 @@ app.post('/records', (req, res) => {
         .then(() => res.redirect('/'))
         .catch(error => console.log(error))
 })
+// test
 // 首頁修改進入edit.hbs
-app.get('/records/:id/edit', (req, res) => {
+app.get('/records/:id/edit', async (req, res) => {
+    const categories = await Category.find().lean()
     const id = req.params.id
     Record.findById(id)
         .lean()
         .then(record => {
-            res.render('edit', { record, id })
+            const category = record.category
+            res.render('edit', { record, id, categories, category })
         })
         .catch(error => console.log(error))
 
@@ -93,7 +94,7 @@ app.post('/records/:id/edit', (req, res) => {
             record.amount = editedRecord.amount
             return record.save()
         })
-        .then(()=> res.redirect('/'))
+        .then(() => res.redirect('/'))
         .catch(error => console.log(error))
 })
 // 首頁刪除資料

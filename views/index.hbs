@@ -6,7 +6,7 @@
                 <select name="category" id="category" class="ml-3" onchange="submit()">
                     <option value="" selected>所有分類</option>
                     {{#each categories}}
-                    <option value="{{this.name}}" {{#is this.name ../chosenRecord}}selected{{/is}}>{{this.name}}</option>
+                    <option value="{{this.name}}" {{#is this.name ../category}}selected{{/is}}>{{this.name}}</option>
                     {{/each}}
                 </select>
             </form>
