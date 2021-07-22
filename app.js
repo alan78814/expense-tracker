@@ -9,7 +9,7 @@ const helpers = require('handlebars-helpers')()
 
 require('./config/mongoose')
 
-app.engine('hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}))
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
@@ -29,7 +29,7 @@ app.get('/', async (req, res) => {
                     }
                 }
             }
-            res.render('index', { records, categories, totalAmount})
+            res.render('index', { records, categories, totalAmount })
         })
         .catch(error => console.error(error))
 })
@@ -52,7 +52,7 @@ app.get('/categories/filter', async (req, res) => {
                     }
                 }
             }
-            res.render('index', { records, categories, chosenRecord, totalAmount})
+            res.render('index', { records, categories, chosenRecord, totalAmount })
         })
         .catch(error => console.error(error))
 })
@@ -63,19 +63,39 @@ app.get('/records/new', (req, res) => {
 // 新增支出頁送出
 app.post('/records', (req, res) => {
     const record = req.body
-    const {name, category, date, amount} = record
+    const { name, category, date, amount } = record
     return Record.create({ name, category, date, amount })
-    .then(() => res.redirect('/')) 
-    .catch(error => console.log(error))
+        .then(() => res.redirect('/'))
+        .catch(error => console.log(error))
 })
 // 首頁修改進入edit.hbs
-app.get('/records/edit', (req, res) => {
-    res.render('edit')
+app.get('/records/:id/edit', (req, res) => {
+    const id = req.params.id
+    Record.findById(id)
+        .lean()
+        .then(record => {
+            res.render('edit', { record, id })
+        })
+        .catch(error => console.log(error))
+
 })
 // edit.hbs送出資料
-app.post('/records/edit', (req, res) => {
-    res.render('edit')
+app.post('/records/:id/edit', (req, res) => {
+    const id = req.params.id
+    const editedRecord = req.body
+    Record.findById(id)
+        .then(record => {
+            record._id = id
+            record.name = editedRecord.name
+            record.category = editedRecord.category
+            record.date = editedRecord.date
+            record.amount = editedRecord.amount
+            return record.save()
+        })
+        .then(()=> res.redirect('/'))
+        .catch(error => console.log(error))
 })
+
 
 app.listen(3000, () => {
     console.log(`App is running on http://localhost:${PORT}`)

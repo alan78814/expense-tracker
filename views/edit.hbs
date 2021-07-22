@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
             {{!-- 之後POST改PUT --}}
-            <form action="/records/edit" method="POST">
+            <form action="/records/{{id}}/edit" method="POST">
                 <div class="title d-flex mb-4">
                     <h5 class="mr-5">*必填欄位</h5>
                     <h2 class="ml-4">請修改你的支出</h2>
@@ -12,26 +12,26 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">名稱*</span>
                     </div>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="name" value="{{record.name}}">
                 </div>
 
                 <div class="input-group mb-4 date">
                     <div class="input-group-prepend">
                         <span class="input-group-text">日期*</span>
                     </div>
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" name="date" value="{{record.date}}">
                 </div>
 
                 <div class="input-group mb-4 category">
                     <div class="input-group-prepend">
                         <label for="category" class="input-group-text">類別*</label>
                     </div>
-                    <select name="category" id="category" class="form-control">
-                        <option value="家居物業">家居物業</option>
-                         <option value="交通出行">交通出行</option>
-                        <option value="休閒娛樂">休閒娛樂</option>
-                        <option value="餐飲食品">餐飲食品</option>
-                        <option value="其他">其他</option>
+                    <select name="category" id="category" class="form-control" value="{{record.category}}">
+                        <option value="家居物業" {{#is record.category "家居物業"}}selected{{/is}}>家居物業</option>
+                        <option value="交通出行" {{#is record.category "交通出行"}}selected{{/is}}>交通出行</option>
+                        <option value="休閒娛樂" {{#is record.category "休閒娛樂"}}selected{{/is}}>休閒娛樂</option>
+                        <option value="餐飲食品" {{#is record.category "餐飲食品"}}selected{{/is}}>餐飲食品</option>
+                        <option value="其他" {{#is record.category "其他"}}selected{{/is}}>其他</option>
                     </select>
                 </div>
 
@@ -39,7 +39,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">金額*</span>
                     </div>
-                    <input type="number" class="form-control" min="0">
+                    <input type="number" class="form-control" min="0" name="amount" value="{{record.amount}}">
                 </div>
 
                 <div class="button ">
