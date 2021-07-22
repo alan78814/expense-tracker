@@ -41,6 +41,7 @@ app.get('/categories/filter', async (req, res) => {
     Record.find({ category })
         .lean()
         .then(records => {
+            console.log(records)
             let chosenRecord
             let totalAmount = 0
             for (let n = 0; n < records.length; n++) {
@@ -64,7 +65,7 @@ app.get('/records/new', (req, res) => {
 app.post('/records', (req, res) => {
     const record = req.body
     const { name, category, date, amount } = record
-    return Record.create({ name, category, date, amount })
+    Record.create({ name, category, date, amount })
         .then(() => res.redirect('/'))
         .catch(error => console.log(error))
 })
@@ -93,6 +94,14 @@ app.post('/records/:id/edit', (req, res) => {
             return record.save()
         })
         .then(()=> res.redirect('/'))
+        .catch(error => console.log(error))
+})
+// 首頁刪除資料
+app.post('/records/:id/delete', (req, res) => {
+    const id = req.params.id
+    Record.findById(id)
+        .then(record => record.remove())
+        .then(() => res.redirect('/'))
         .catch(error => console.log(error))
 })
 
