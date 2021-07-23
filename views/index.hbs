@@ -13,7 +13,7 @@
         </div>
 
         <div class="total-money mt-3">
-            <h3>總金額:{{totalAmount}}</h3>
+            <h3>總金額 : {{totalAmount}}</h3>
         </div>
 
         <div class="expense mt-2 mb-3">
@@ -36,7 +36,7 @@
                         <form action="/records/{{this._id}}/edit" method="GET" style="display: inline">
                             <button type="submit" class="btn btn-outline-primary">修改</button>
                         </form>
-                        <form action="/records/{{this._id}}/delete" method="POST" style="display: inline">
+                        <form action="/records/{{this._id}}?_method=DELETE" method="POST" style="display: inline">
                             <button type="submit" class="btn btn-outline-danger ml-2">刪除</button>
                         </form>
                     </div>
