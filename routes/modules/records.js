@@ -7,19 +7,33 @@ const Record = require('../../models/record')
 router.get('/filter', async (req, res) => {
   const categories = await Category.find().lean()
   const category = req.query.category
+  // test
+  const categoryData = {}
+  categories.forEach(category => categoryData[category.name] = category.icon)
+  // /test
   if (!category) return res.redirect('/')
   Record.find({ category })
     .lean()
     .then(records => {
       let totalAmount = 0
-      for (let n = 0; n < records.length; n++) {
-        for (let i = 0; i < categories.length; i++) {
-          if (records[n].category === categories[i].name) {
-            records[n].category = categories[i].icon
-            totalAmount = totalAmount + records[n].amount
-          }
-        }
+      // test
+      for (let i = 0; i < records.length; i++) {
+        records[i].category = categoryData[records[i].category]
+        totalAmount = totalAmount + records[i].amount
       }
+      // /test
+
+      // //original code
+      // for (let n = 0; n < records.length; n++) {
+      //   for (let i = 0; i < categories.length; i++) {
+      //     if (records[n].category === categories[i].name) {
+      //       records[n].category = categories[i].icon
+      //       totalAmount = totalAmount + records[n].amount
+      //     }
+      //   }
+      // }
+      // // /original code
+      
       res.render('index', { records, categories, category, totalAmount })
     })
     .catch(error => console.error(error))
