@@ -16,6 +16,9 @@ const recordSchema = new Schema({
   amount: {
     type: Number,
     required: true
+  },
+  merchant: {
+    type: String,
   }
 })
 module.exports = mongoose.model('Record', recordSchema)
