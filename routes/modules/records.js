@@ -33,7 +33,7 @@ router.get('/filter', async (req, res) => {
       //   }
       // }
       // // /original code
-      
+
       res.render('index', { records, categories, category, totalAmount })
     })
     .catch(error => console.error(error))
@@ -46,8 +46,8 @@ router.get('/new', async (req, res) => {
 // 新增支出頁送出
 router.post('/', (req, res) => {
   const record = req.body
-  const { name, category, date, amount } = record
-  Record.create({ name, category, date, amount })
+  const { name, category, date, amount, merchant } = record
+  Record.create({ name, category, date, amount, merchant })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
@@ -74,6 +74,7 @@ router.put('/:id', (req, res) => {
       record.category = editedRecord.category
       record.date = editedRecord.date
       record.amount = editedRecord.amount
+      record.merchant = editedRecord.merchant
       return record.save()
     })
     .then(() => res.redirect('/'))
