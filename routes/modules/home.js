@@ -9,36 +9,28 @@ router.get('/', async (req, res) => {
   const categoryData = {}
   categories.forEach(category => categoryData[category.name] = category.icon)
 
-  async function test() {
+  async function getAllData() {
     const records = await Record.find().lean()
     try {
       let totalAmount = 0
+      const date = []
+
       for (let i = 0; i < records.length; i++) {
+        if (!date.includes(records[i].date.slice(0, 7))) {
+          date.push(records[i].date.slice(0, 7))
+        }
         records[i].category = categoryData[records[i].category]
         totalAmount = totalAmount + records[i].amount
       }
-      res.render('index', { records, categories, totalAmount })
+
+      res.render('index', { records, categories, totalAmount, date })
     } catch (error) {
       console.error(error)
       res.render('errorPage', { err }) //簡易錯誤面板，傳送 err 到使用者端
     }
   }
 
-  test()
-
-  // original data
-  // Record.find()
-  //   .lean()
-  //   .then(records => {
-  //     let totalAmount = 0
-  //     for (let i = 0; i < records.length; i++) {
-  //       records[i].category = categoryData[records[i].category]
-  //       totalAmount = totalAmount + records[i].amount
-  //     }
-  //     res.render('index', { records, categories, totalAmount })
-  //   })
-  //   .catch(error => console.error(error))
-  // original data
+  getAllData()
 })
 
 module.exports = router

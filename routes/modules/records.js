@@ -3,46 +3,54 @@ const router = express.Router()
 const Category = require('../../models/category')
 const Record = require('../../models/record')
 
-// 首頁篩選
+// 首頁篩選 此段改寫成全async/awit 目前進度 
 router.get('/filter', async (req, res) => {
   const categories = await Category.find().lean()
-  const category = req.query.category
-  // test
+  // 當選擇 Category or date為空白時，{ $ne: '' } 使後面 $match 不出錯。因為{ $ne: '' } 表示不等於空白皆可
+  const inputCategory = req.query.category ? req.query.category : { $ne: '' }
+  const inputdate = req.query.month ? req.query.month : { $ne: '' }
   const categoryData = {}
+  const filteredData = await Record.aggregate([
+    { $project: { name: 1, amount: 1, category: 1, date: { $substr: ["$date", 0, 7] }, day: { $substr: ["$date", 7, 9] } } },
+    { $match: { 'category': inputCategory, 'date': inputdate } }
+  ])
+  // 產出 category icon 對應名字一物件，res.render中使用渲染出icon
   categories.forEach(category => categoryData[category.name] = category.icon)
-  // /test
-  if (!category) return res.redirect('/')
-  Record.find({ category })
-    .lean()
-    .then(records => {
+
+  async function getFilterData() {
+    try {
+      if (!filteredData) return res.redirect('/')
+      const records = filteredData // home.js使用records
+      const date = []
+      const rawRecords = await Record.find().lean()
       let totalAmount = 0
-      // test
+      // 在篩選欄顯示 db 中有的月份
+      for (let i = 0; i < rawRecords.length; i++) {
+        if (!date.includes(rawRecords[i].date.slice(0, 7))) {
+          date.push(rawRecords[i].date.slice(0, 7))
+        }
+      }
+      // 顯示篩選資料 icon/totalAmount
       for (let i = 0; i < records.length; i++) {
         records[i].category = categoryData[records[i].category]
         totalAmount = totalAmount + records[i].amount
       }
-      // /test
 
-      // //original code
-      // for (let n = 0; n < records.length; n++) {
-      //   for (let i = 0; i < categories.length; i++) {
-      //     if (records[n].category === categories[i].name) {
-      //       records[n].category = categories[i].icon
-      //       totalAmount = totalAmount + records[n].amount
-      //     }
-      //   }
-      // }
-      // // /original code
+      res.render('index', { records, categories, inputCategory, totalAmount, date, inputdate })
+    } catch (error) {
+      console.error(error)
+      res.render('errorPage', { err }) //簡易錯誤面板，傳送 err 到使用者端
+    }
+  }
 
-      res.render('index', { records, categories, category, totalAmount })
-    })
-    .catch(error => console.error(error))
+  getFilterData()
 })
 // 首頁新增支出進入new.hbs
 router.get('/new', async (req, res) => {
   const categories = await Category.find().lean()
   res.render('new', { categories })
 })
+
 // 新增支出頁送出
 router.post('/', (req, res) => {
   const record = req.body
@@ -51,6 +59,7 @@ router.post('/', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
+
 // 首頁修改進入edit.hbs
 router.get('/:id/edit', async (req, res) => {
   const categories = await Category.find().lean()
@@ -63,6 +72,7 @@ router.get('/:id/edit', async (req, res) => {
     })
     .catch(error => console.log(error))
 })
+
 // edit.hbs送出資料  原先 router.post('/records/:id/edit'
 router.put('/:id', (req, res) => {
   const id = req.params.id
@@ -80,6 +90,7 @@ router.put('/:id', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
+
 // 首頁刪除資料  原先 router.post('/records/:id/delete'
 router.delete('/:id', (req, res) => {
   const id = req.params.id

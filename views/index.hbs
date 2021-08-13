@@ -6,7 +6,15 @@
                 <select name="category" id="category" class="ml-3" onchange="submit()">
                     <option value="" selected>所有分類</option>
                     {{#each categories}}
-                    <option value="{{this.name}}" {{#is this.name ../category}}selected{{/is}}>{{this.name}}</option>
+                    <option value="{{this.name}}" {{#is this.name ../inputCategory}}selected{{/is}}>{{this.name}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="month">請選擇年/月</label>
+                <select name="month" id="month" class="ml-3" onchange="submit()">
+                    <option value=""selected>請選擇年/月</option>
+                    {{#each date}}
+                    <option value="{{this}}" {{#is this ../inputdate}}selected{{/is}}>{{this}}</option>
                     {{/each}}
                 </select>
             </form>
@@ -26,7 +34,7 @@
                     <div class="record d-flex justify-content-between align-items-center mr-5">
                         <div class="d-flex flex-column">
                             <span>{{this.name}}</span>
-                            <span>{{this.date}}</span>
+                            <span>{{this.date}}{{this.day}}</span>
                         </div>
                         <div class="amount">
                             <span>{{this.amount}}</span>
