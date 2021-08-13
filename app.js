@@ -21,8 +21,17 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
+// 引用 passport 模組
 usePassport(app)
 
+// 設定本地變數 res.locals，在驗證完後存下req.isAuthenticated/req.user
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+
+// 進路由
 app.use(routes)
 
 app.listen(PORT, () => {
