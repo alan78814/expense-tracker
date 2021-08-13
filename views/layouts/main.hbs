@@ -18,7 +18,7 @@
 <body>
     {{!-- nav bar --}}
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">家庭記帳記事本</a>
+        <a class="navbar-brand" href="/">{{#if isAuthenticated}}{{ user.name}}'s {{/if}}家庭記帳記事本</a>
         {{#if isAuthenticated}}
         <a href="/users/logout" class="btn btn-outline-light">Logout</a>
         {{else}}

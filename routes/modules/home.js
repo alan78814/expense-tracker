@@ -10,7 +10,8 @@ router.get('/', async (req, res) => {
   categories.forEach(category => categoryData[category.name] = category.icon)
 
   async function getAllData() {
-    const records = await Record.find().lean()
+    const userId = req.user._id
+    const records = await Record.find({ userId }).lean()
     try {
       let totalAmount = 0
       const date = []
