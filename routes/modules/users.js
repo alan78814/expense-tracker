@@ -22,36 +22,47 @@ router.get('/register', (req, res) => {
 // register 頁面送出資料
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
-  User.findOne({ email })
-    .then(user => {
-      // 有註冊帳號，返回原本畫面
-      if (user) {
-        console.log('User already exists.')
-        res.render('register', {
-          name,
-          email,
-          password,
-          confirmPassword
-        })
-      } else {
-        // 如果還沒註冊：寫入資料庫
-        return User.create({
-          name,
-          email,
-          password
-        })
-      }
+  const errors = []
+  if (!name || !email || !password || !confirmPassword) {
+    errors.push({ message: '所有欄位都是必填。' })
+  }
+  if (password !== confirmPassword) {
+    errors.push({ message: '密碼與確認密碼不相符！' })
+  }
+  if (errors.length) {
+    return res.render('register', {
+      errors,
+      name,
+      email,
+      password,
+      confirmPassword
     })
-    .then(() => res.redirect('/'))
-    .catch(err => {
-      console.log(err)
-      res.render('errorPage', { err }) //簡易錯誤面板，傳送 err 到使用者端
+  }
+  User.findOne({ email }).then(user => {
+    if (user) {
+      errors.push({ message: '這個 Email 已經註冊過了。' })
+      return res.render('register', {
+        errors,
+        name,
+        email,
+        password,
+        confirmPassword
+      })
+    }
+    return User.create({
+      name,
+      email,
+      password
     })
+      .then(() => res.redirect('/'))
+      .catch(err => console.log(err))
+  })
 })
 
 // 登出 (logout)
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success_msg', '你已經成功登出。')
   res.redirect('/users/login')
 })
 
