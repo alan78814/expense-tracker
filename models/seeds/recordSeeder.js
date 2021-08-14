@@ -10,35 +10,35 @@ const seedRecord = [
   {
     name: '午餐',
     category: '餐飲食品',
-    date: '2019-04-23',
+    date: '2021-07-23',
     amount: 60,
     merchant: "便當店"
   },
   {
     name: '晚餐',
     category: '餐飲食品',
-    date: '2019-04-23',
+    date: '2021-08-23',
     amount: 60,
     merchant: "麵店"
   },
   {
     name: '捷運',
     category: '交通出行',
-    date: '2019-04-23',
+    date: '2021-08-23',
     amount: 120,
     merchant: "捷運"
   },
   {
     name: '電影-驚奇隊長',
     category: '休閒娛樂',
-    date: '2019-04-23',
+    date: '2021-07-23',
     amount: 120,
     merchant: "威秀"
   },
   {
     name: '租金',
     category: '家居物業',
-    date: '2019-04-23',
+    date: '2021-06-23',
     amount: 25000,
     merchant: "房東"
   }
@@ -80,13 +80,3 @@ db.once('open', () => {
     .catch((err) => console.error(err))
 })
 
-
-// db.once('open', () => {
-//   Record
-//     .create(seedRecord)
-//     .then(() => {
-//       console.log('recordSedder.js done')
-//       return db.close()
-//     })
-//     .catch(error => console.error(error))
-// })

@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
       res.render('index', { records, categories, totalAmount, date })
     } catch (error) {
       console.error(error)
-      res.render('errorPage', { err }) //簡易錯誤面板，傳送 err 到使用者端
+      res.render('errorPage') //簡易錯誤面板
     }
   }
 

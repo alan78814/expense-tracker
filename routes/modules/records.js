@@ -3,7 +3,7 @@ const router = express.Router()
 const Category = require('../../models/category')
 const Record = require('../../models/record')
 
-// 首頁篩選 此段改寫成全async/awit 目前進度 
+// 首頁篩選 此段改寫成全async/awit 
 router.get('/filter', async (req, res) => {
   const categories = await Category.find().lean()
   // 當選擇 Category or date為空白時，{ $ne: '' } 使後面 $match 不出錯。因為{ $ne: '' } 表示不等於空白皆可
@@ -12,7 +12,7 @@ router.get('/filter', async (req, res) => {
   const categoryData = {}
   const userId = req.user._id
   const filteredData = await Record.aggregate([
-    { $project: {userId: 1, name: 1, amount: 1, category: 1, date: { $substr: ["$date", 0, 7] }, day: { $substr: ["$date", 7, 9] } } },
+    { $project: { userId: 1, name: 1, amount: 1, category: 1, date: { $substr: ["$date", 0, 7] }, day: { $substr: ["$date", 7, 9] }, merchant: 1 } },
     { $match: { 'category': inputCategory, 'date': inputdate, userId } }
   ])
   // 產出 category icon 對應名字一物件，res.render中使用渲染出icon
@@ -40,7 +40,7 @@ router.get('/filter', async (req, res) => {
       res.render('index', { records, categories, inputCategory, totalAmount, date, inputdate })
     } catch (error) {
       console.error(error)
-      res.render('errorPage', { err }) //簡易錯誤面板，傳送 err 到使用者端
+      res.render('errorPage')
     }
   }
 
@@ -60,7 +60,10 @@ router.post('/', (req, res) => {
   const { name, category, date, amount, merchant } = record
   Record.create({ name, category, date, amount, merchant, userId })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('errorPage')
+    })
 })
 
 // 首頁修改進入edit.hbs
@@ -74,10 +77,13 @@ router.get('/:id/edit', async (req, res) => {
       const category = record.category
       res.render('edit', { record, _id, categories, category })
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('errorPage')
+    })
 })
 
-// edit.hbs送出資料  原先 router.post('/records/:id/edit'
+// edit.hbs送出資料  
 router.put('/:id', (req, res) => {
   const _id = req.params.id
   const userId = req.user._id
@@ -93,17 +99,23 @@ router.put('/:id', (req, res) => {
       return record.save()
     })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('errorPage')
+    })
 })
 
-// 首頁刪除資料  原先 router.post('/records/:id/delete'
+// 首頁刪除資料  
 router.delete('/:id', (req, res) => {
   const _id = req.params.id
   const userId = req.user._id
   Record.findOne({ _id, userId })
     .then(record => record.remove())
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('errorPage')
+    })
 })
 
 module.exports = router

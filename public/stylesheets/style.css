@@ -1,8 +1,24 @@
 .record {
-    width:20vw
+    width:30vw;
+    /* outline: 1px solid red */
 }
 
 .category {
     color: #1C1CFF;
     font-size: 30px;
+    width:4vw
 }
+
+.date {
+    width:15vw;
+}
+
+.amount {
+    width:8vw;
+}
+
+.merchant {
+    width:5vw;
+}
+
+
