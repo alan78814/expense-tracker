@@ -13,7 +13,7 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login',
-  failureFlash: true,
+  failureFlash: true
 }))
 
 // 按下 register 切換頁面
@@ -62,7 +62,7 @@ router.post('/register', (req, res) => {
       .then(() => res.redirect('/'))
       .catch(err => {
         console.log(err)
-        res.render('errorPage') 
+        res.render('errorPage')
       })
   })
 })

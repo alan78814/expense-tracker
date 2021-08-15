@@ -24,7 +24,7 @@
 git clone https://github.com/alan78814/expense-tracker.git
 ```
 2.設定環境變數檔案
-將檔案 .env.example 檔名改為 .env。
+將檔案 .env example 檔名改為 .env。
 若要使用 facebook login 功能，需要先到 Facebook for Developers:
 https://developers.facebook.com/?locale=zh_TW 
 取得應用程式編號/密鑰取代 .env 中 FACEBOOK_ID=SKIP / FACEBOOK_SECRET=SKIP 的 SKIP才可使用。

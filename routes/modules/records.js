@@ -6,7 +6,7 @@ const Record = require('../../models/record')
 // 首頁篩選 此段改寫成全async/awit 
 router.get('/filter', async (req, res) => {
   const categories = await Category.find().lean()
-  // 當選擇 Category or date為空白時，{ $ne: '' } 使後面 $match 不出錯。因為{ $ne: '' } 表示不等於空白皆可
+  // 當選擇 Category or date為空白時，{ $ne: '' } 使後面 $match 不出錯。因為{ $ne: '' } 表示找出不等於空值的所有資料
   const inputCategory = req.query.category ? req.query.category : { $ne: '' }
   const inputdate = req.query.month ? req.query.month : { $ne: '' }
   const categoryData = {}

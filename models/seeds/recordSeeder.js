@@ -12,35 +12,35 @@ const seedRecord = [
     category: '餐飲食品',
     date: '2021-07-23',
     amount: 60,
-    merchant: "便當店"
+    merchant: '便當店'
   },
   {
     name: '晚餐',
     category: '餐飲食品',
     date: '2021-08-23',
     amount: 60,
-    merchant: "麵店"
+    merchant: '麵店'
   },
   {
     name: '捷運',
     category: '交通出行',
     date: '2021-08-23',
     amount: 120,
-    merchant: "捷運"
+    merchant: '捷運'
   },
   {
     name: '電影-驚奇隊長',
     category: '休閒娛樂',
     date: '2021-07-23',
     amount: 120,
-    merchant: "威秀"
+    merchant: '威秀'
   },
   {
     name: '租金',
     category: '家居物業',
     date: '2021-06-23',
     amount: 25000,
-    merchant: "房東"
+    merchant: '房東'
   }
 ]
 const seedUser = {
@@ -56,7 +56,7 @@ db.once('open', () => {
     .then(hash => User.create({
       name: seedUser.name,
       email: seedUser.email,
-      password: hash,
+      password: hash
     }))
     .then(user => {
       const userId = user._id
@@ -79,4 +79,3 @@ db.once('open', () => {
     })
     .catch((err) => console.error(err))
 })
-

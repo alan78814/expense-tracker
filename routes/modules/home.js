@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   const categoryData = {}
   categories.forEach(category => categoryData[category.name] = category.icon)
 
-  async function getAllData() {
+  async function getAllData () {
     const userId = req.user._id
     const records = await Record.find({ userId }).lean()
     try {
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
       res.render('index', { records, categories, totalAmount, date })
     } catch (error) {
       console.error(error)
-      res.render('errorPage') //簡易錯誤面板
+      res.render('errorPage') // 簡易錯誤面板
     }
   }
 
